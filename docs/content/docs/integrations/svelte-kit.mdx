@@ -21,6 +21,29 @@ export async function handle({ event, resolve }) {
 
 ### Populate session data in the event (`event.locals`)
 
+Add the `User` and `Session` types to your app's `Locals` interface.
+
+```ts title="app.d.ts"
+import type { User, Session } from "better-auth";
+
+// See https://svelte.dev/docs/kit/types#app.d.ts
+// for information about these interfaces
+declare global {
+  namespace App {
+    // interface Error {}
+    interface Locals {
+      session?: Session;
+      user?: User;
+    }
+    // interface PageData {}
+    // interface PageState {}
+    // interface Platform {}
+  }
+}
+
+export {};
+```
+
 The `svelteKitHandler` does not automatically populate `event.locals.user` or `event.locals.session`. If you want to access the current session in your server code (e.g., in `+layout.server.ts`, actions, or endpoints), populate `event.locals` in your `handle` hook:
 
 ```ts title="hooks.server.ts"
